@@ -24,11 +24,16 @@ module.exports = {
     },
   },
   rules: {
-    // Style
+    /**
+     * Style
+     */
     quotes: [1, "double"],
 
+    /**
+     * Common
+     */
     // https://github.com/airbnb/javascript/blob/64b965efe0355c8290996ff5a675cd8fb30bf843/packages/eslint-config-airbnb-base/rules/style.js#L334-L352
-    "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
+    // "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
     "no-await-in-loop": "off",
     "wrap-iife": "off",
     "global-require": "off",
@@ -37,7 +42,9 @@ module.exports = {
     "prefer-arrow-callback": "off",
     "no-console": "warn",
 
-    // React
+    /**
+     * React
+     */
     "react/jsx-filename-extension": "off",
     "react/prop-types": "off",
     "react/jsx-curly-newline": "off",
@@ -46,9 +53,12 @@ module.exports = {
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
 
-    // NextJS
+    /**
+     * NextJS
+     */
     "react/react-in-jsx-scope": "off",
     "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
+    // next-optimized-images
     "import/no-unresolved": ["error", { commonjs: true, ignore: [".+\\?.+$"] }],
   },
 };

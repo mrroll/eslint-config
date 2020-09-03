@@ -5,7 +5,7 @@ module.exports = {
   env: {
     browser: true,
   },
-  extends: ["airbnb"],
+  extends: ["airbnb", "airbnb/hooks"],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
