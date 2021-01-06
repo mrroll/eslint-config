@@ -42,6 +42,23 @@ module.exports = {
     "prefer-arrow-callback": "off",
     "no-console": "warn",
 
+    "import/order": [
+      "warn",
+      {
+        /**
+         * Allow the use of external for matching for classnames/bind which we
+         * want at the end of the component's imports together with the
+         */
+        pathGroupsExcludedImportTypes: ["builtin"],
+        pathGroups: [
+          {
+            pattern: "classnames/bind",
+            group: "sibling",
+          },
+        ],
+      },
+    ],
+
     /**
      * React
      */
