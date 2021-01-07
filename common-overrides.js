@@ -42,27 +42,33 @@ module.exports = {
     /**
      * Style
      */
+
     "prettier/prettier": 1,
+    // https://github.com/prettier/eslint-plugin-prettier#arrow-body-style-and-prefer-arrow-callback-issue
+    "arrow-body-style": 0,
+    "prefer-arrow-callback": 0,
+
     /**
      * Common
      */
+
     // https://github.com/airbnb/javascript/blob/64b965efe0355c8290996ff5a675cd8fb30bf843/packages/eslint-config-airbnb-base/rules/style.js#L334-L352
-    // "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
-    "no-await-in-loop": "off",
-    "wrap-iife": "off",
-    "global-require": "off",
-    "func-names": "off",
-    "import/newline-after-import": "off",
-    "prefer-arrow-callback": "off",
-    "no-console": "warn",
+    // "no-restricted-syntax": [2, "LabeledStatement", "WithStatement"],
+    "no-await-in-loop": 0,
+    "wrap-iife": 0,
+    "global-require": 0,
+    "func-names": 0,
+    "import/newline-after-import": 0,
+    "no-console": 1,
 
     "import/order": [
-      "warn",
+      1,
       {
         /**
          * Allow the use of external for matching for classnames/bind which we
          * want at the end of the component's imports together with the
          */
+
         pathGroupsExcludedImportTypes: ["builtin"],
         pathGroups: [
           {
@@ -76,20 +82,22 @@ module.exports = {
     /**
      * React
      */
-    "react/jsx-filename-extension": "off",
-    "react/prop-types": "off",
-    "react/jsx-curly-newline": "off",
-    "react/jsx-fragments": "off",
-    "consistent-return": "off",
-    "jsx-a11y/click-events-have-key-events": "off",
-    "jsx-a11y/no-noninteractive-element-interactions": "off",
+
+    "react/jsx-filename-extension": 0,
+    "react/prop-types": 0,
+    "react/jsx-curly-newline": 0,
+    "react/jsx-fragments": 0,
+    "consistent-return": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
 
     /**
      * NextJS
      */
-    "react/react-in-jsx-scope": "off",
-    "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
+
+    "react/react-in-jsx-scope": 0,
+    "import/no-extraneous-dependencies": [2, { devDependencies: true }],
     // next-optimized-images
-    "import/no-unresolved": ["error", { commonjs: true, ignore: [".+\\?.+$"] }],
+    "import/no-unresolved": [2, { commonjs: true, ignore: [".+\\?.+$"] }],
   },
 };
