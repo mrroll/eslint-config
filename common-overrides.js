@@ -4,14 +4,28 @@ module.exports = {
   env: {
     es6: true,
   },
-  extends: ["plugin:prettier/recommended"],
+
+  /**
+   * - Add prettier in both plugins and extends instead of just
+   *   "plugin:prettier/recommended" in the extends array.
+   * - https://github.com/prettier/eslint-plugin-prettier/issues/103#issuecomment-425670176
+   */
+
+  // Make eslint error out when prettier sees errors.
+  plugins: ["prettier"],
+
+  // Stop eslint rules that may conflict with prettier.
+  extends: ["prettier"],
+
   globals: {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly",
   },
+
   parserOptions: {
     ecmaVersion: 2018,
   },
+
   settings: {
     // https://github.com/airbnb/javascript/issues/859#issuecomment-265862709
     "import/resolver": {
@@ -23,12 +37,12 @@ module.exports = {
       },
     },
   },
+
   rules: {
     /**
      * Style
      */
-    quotes: [1, "double"],
-
+    "prettier/prettier": 1,
     /**
      * Common
      */
