@@ -64,11 +64,19 @@ module.exports = {
     "import/order": [
       1,
       {
+        groups: [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+        ],
         /**
          * Allow the use of external for matching for classnames/bind which we
-         * want at the end of the component's imports together with the
+         * want near the end of the component's imports together with the
+         * ./Component.module.scss file.
          */
-
         pathGroupsExcludedImportTypes: ["builtin"],
         pathGroups: [
           {
