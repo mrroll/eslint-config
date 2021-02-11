@@ -80,6 +80,10 @@ module.exports = {
             pattern: "classnames/bind",
             group: "sibling",
           },
+          {
+            pattern: "**twind/css",
+            group: "sibling",
+          },
         ],
       },
     ],
