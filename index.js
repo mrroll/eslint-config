@@ -117,7 +117,7 @@ module.exports = {
     "import/no-unresolved": [2, { commonjs: true, ignore: [".+\\?.+$"] }],
 
     /**
-     * Mixture of TS and Js
+     * Mixture of TS and JS
      */
     "@typescript-eslint/no-var-requires": 0,
   },

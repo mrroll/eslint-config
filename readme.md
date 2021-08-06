@@ -8,6 +8,7 @@ module.exports = {
   extends: [
     "@mrroll/eslint-config/base",
     "@mrroll/eslint-config/esm",
+    "@mrroll/eslint-config/ts",
     "@mrroll/eslint-config/react",
     "@mrroll/eslint-config/react-native",
     "@mrroll/eslint-config",
