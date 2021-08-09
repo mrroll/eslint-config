@@ -115,10 +115,5 @@ module.exports = {
     "import/no-extraneous-dependencies": [2, { devDependencies: true }],
     // next-optimized-images
     "import/no-unresolved": [2, { commonjs: true, ignore: [".+\\?.+$"] }],
-
-    /**
-     * Mixture of TS and JS
-     */
-    "@typescript-eslint/no-var-requires": 0,
   },
 };
