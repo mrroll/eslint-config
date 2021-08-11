@@ -66,7 +66,7 @@ module.exports = {
     "func-names": 0,
     "import/newline-after-import": 0,
     "no-console": 1,
-
+    "no-unused-vars": 1,
     "import/order": [
       1,
       {
@@ -107,6 +107,7 @@ module.exports = {
     "consistent-return": 0,
     "jsx-a11y/click-events-have-key-events": 0,
     "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "react/jsx-props-no-spreading": 1,
 
     /**
      * NextJS
@@ -115,5 +116,10 @@ module.exports = {
     "import/no-extraneous-dependencies": [2, { devDependencies: true }],
     // next-optimized-images
     "import/no-unresolved": [2, { commonjs: true, ignore: [".+\\?.+$"] }],
+
+    /**
+     * Typescript
+     */
+    "@typescript-eslint/no-var-requires": 0,
   },
 };
