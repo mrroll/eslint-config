@@ -67,6 +67,7 @@ module.exports = {
     "import/newline-after-import": 0,
     "no-console": 1,
     "no-unused-vars": 1,
+    "consistent-return": 0,
     "import/order": [
       1,
       {
@@ -96,30 +97,8 @@ module.exports = {
         ],
       },
     ],
-
-    /**
-     * React
-     */
-    "react/jsx-filename-extension": 0,
-    "react/prop-types": 0,
-    "react/jsx-curly-newline": 0,
-    "react/jsx-fragments": 0,
-    "consistent-return": 0,
-    "jsx-a11y/click-events-have-key-events": 0,
-    "jsx-a11y/no-noninteractive-element-interactions": 0,
-    "react/jsx-props-no-spreading": 1,
-
-    /**
-     * NextJS
-     */
-    "react/react-in-jsx-scope": 0,
     "import/no-extraneous-dependencies": [2, { devDependencies: true }],
     // next-optimized-images
     "import/no-unresolved": [2, { commonjs: true, ignore: [".+\\?.+$"] }],
-
-    /**
-     * Typescript
-     */
-    "@typescript-eslint/no-var-requires": 0,
   },
 };
