@@ -24,17 +24,19 @@ const config = {
   },
 
   extends: [
+    "eslint:recommended",
     !isReact && "airbnb-base",
 
     // This also loads the react plugin through eslint-config-airbnb >> react-a11y so we no longer need to include it.
     isReact && "airbnb",
     isReact && "airbnb/hooks",
 
+    isTypescript && "plugin:@typescript-eslint/recommended",
     isTypescript && !isReact && "airbnb-typescript/base",
 
     isTypescript && isReact && "airbnb-typescript",
 
-    isNext && "next",
+    isNext && "plugin:@next/next/recommended",
 
     "prettier",
   ].filter((i) => i),
@@ -143,5 +145,8 @@ const config = {
     }),
   },
 };
+
+// Output current config for debugging.
+// require("fs").writeFileSync("config.json", JSON.stringify(config));
 
 module.exports = config;
