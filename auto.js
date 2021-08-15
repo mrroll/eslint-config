@@ -94,6 +94,8 @@ const config = {
     "no-console": 1,
     "no-unused-vars": 1,
     "consistent-return": 0,
+    "no-unreachable": 1,
+    "import/no-extraneous-dependencies": [2, { devDependencies: true }],
     "import/order": [
       1,
       {
@@ -123,10 +125,19 @@ const config = {
         ],
       },
     ],
-    "import/no-extraneous-dependencies": [2, { devDependencies: true }],
 
-    // For next-optimized-images when it has a query string at the end.
-    "import/no-unresolved": [2, { commonjs: true, ignore: [".+\\?.+$"] }],
+    ...(isNext && {
+      "jsx-a11y/anchor-is-valid": [
+        "error",
+        {
+          components: ["Link"],
+          specialLink: ["hrefLeft", "hrefRight"],
+          aspects: ["invalidHref", "preferButton"],
+        },
+      ],
+      // For next-optimized-images when it has a query string at the end.
+      "import/no-unresolved": [2, { commonjs: true, ignore: [".+\\?.+$"] }],
+    }),
 
     ...(isReact && {
       "jsx-a11y/click-events-have-key-events": 1,
@@ -137,11 +148,15 @@ const config = {
       "react/jsx-curly-newline": 0,
       "react/jsx-fragments": 0,
       "react/react-in-jsx-scope": 0,
+      "react/destructuring-assignment": 1,
     }),
 
     ...(isTypescript && {
       "@typescript-eslint/no-var-requires": 0,
       "@typescript-eslint/no-unused-vars": 1,
+      "@typescript-eslint/no-unused-expressions": 1,
+      "@typescript-eslint/no-shadow": 1,
+      "@typescript-eslint/naming-convention": 1,
     }),
 
     ...(isTypescript &&

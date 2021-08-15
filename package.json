@@ -1,6 +1,6 @@
 {
   "name": "@mrroll/eslint-config",
-  "version": "2.7.2",
+  "version": "2.7.5",
   "main": "index.js",
   "author": "mrroll",
   "license": "MIT",
