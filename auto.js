@@ -69,6 +69,9 @@ const config = {
           "src", // replace with your app-module-path directory or just use paths.
         ],
       },
+      ...(isTypescript && {
+        typescript: {},
+      }),
     },
   },
 
