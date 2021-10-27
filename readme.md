@@ -1,3 +1,17 @@
+[Known Issue](https://github.com/facebook/react/issues/22545) #1 Workaround for `yarn` and eslint ^8.
+
+`package.json`
+
+```json
+"resolutions": {
+    "eslint-plugin-react-hooks": "^4.2.1-alpha-4298ddbc5-20211023"
+  }
+```
+
+---
+
+Automatic Configuration
+
 `eslintrc.js`
 
 ```js
@@ -5,13 +19,6 @@
 require("@mrroll/eslint-config/patch");
 
 module.exports = {
-  extends: [
-    "@mrroll/eslint-config/base",
-    "@mrroll/eslint-config/esm",
-    "@mrroll/eslint-config/ts",
-    "@mrroll/eslint-config/react",
-    "@mrroll/eslint-config/react-native",
-    "@mrroll/eslint-config",
-  ],
+  extends: ["@mrroll/eslint-config/auto"],
 };
 ```

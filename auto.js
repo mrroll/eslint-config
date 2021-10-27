@@ -43,7 +43,7 @@ const config = {
 
   plugins: [isTypescript && "@typescript-eslint", "prettier"].filter((i) => i),
 
-  //   Only override the parser if we need to.
+  // TS needs typescript-eslint. non-TS NextJS and React need JSX so use eslint-parser.
   ...((isTypescript || isNext) && {
     parser: isTypescript ? "@typescript-eslint/parser" : "@babel/eslint-parser",
   }),
@@ -53,6 +53,14 @@ const config = {
     ecmaVersion: 2020,
     requireConfigFile: false,
     ...(isTypescript && { project: "tsconfig.json" }),
+    // Fixes @babel/eslint-parser error:
+    // "This experimental syntax requires enabling one of the following parser plugin(s)."
+    ...(!isTypescript &&
+      isNext && {
+        babelOptions: {
+          presets: ["next/babel"],
+        },
+      }),
   },
 
   globals: {
@@ -152,6 +160,7 @@ const config = {
       "react/jsx-fragments": 0,
       "react/react-in-jsx-scope": 0,
       "react/destructuring-assignment": 1,
+      "react-hooks/exhaustive-deps": 1,
     }),
 
     ...(isTypescript && {
