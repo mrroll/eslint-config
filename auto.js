@@ -107,6 +107,7 @@ const config = {
     "consistent-return": 0,
     "no-unreachable": 1,
     "import/no-extraneous-dependencies": [2, { devDependencies: true }],
+    "no-restricted-exports": 0,
     "import/order": [
       1,
       {
@@ -148,6 +149,7 @@ const config = {
       ],
       // For next-optimized-images when it has a query string at the end.
       "import/no-unresolved": [2, { commonjs: true, ignore: [".+\\?.+$"] }],
+      "@next/next/no-img-element": 0,
     }),
 
     ...(isReact && {
@@ -161,6 +163,13 @@ const config = {
       "react/react-in-jsx-scope": 0,
       "react/destructuring-assignment": 1,
       "react-hooks/exhaustive-deps": 1,
+      "react/function-component-definition": [
+        1,
+        {
+          namedComponents: "function-declaration",
+          unnamedComponents: "arrow-function",
+        },
+      ],
     }),
 
     ...(isTypescript && {
