@@ -69,13 +69,23 @@ const config = {
   },
 
   settings: {
-    // https://github.com/airbnb/javascript/issues/859#issuecomment-265862709
+    /**
+     *
+     * 1. https://github.com/airbnb/javascript/issues/859#issuecomment-265862709
+     * 2. https://github.com/import-js/eslint-plugin-import/tree/main/resolvers/node
+     *
+     * "paths" is used instead of "moduleDirectory" since "moduleDirectory"
+     * triggers an "import/no-self-import" error when importing a file from
+     * baseUrl which has the same name as an installed package. e.g.
+     *
+     * import knex from 'knex;
+     *
+     * Where knex exists in src/knex/index.ts
+     *
+     */
     "import/resolver": {
       node: {
-        moduleDirectory: [
-          "node_modules",
-          "src", // replace with your app-module-path directory or just use paths.
-        ],
+        paths: ["src"],
       },
       ...(isTypescript && {
         typescript: {},
