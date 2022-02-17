@@ -188,6 +188,7 @@ const config = {
       "@typescript-eslint/no-unused-expressions": 1,
       "@typescript-eslint/no-shadow": 1,
       "@typescript-eslint/naming-convention": 1,
+      "@typescript-eslint/no-throw-literal": 1,
     }),
 
     ...(isTypescript &&
