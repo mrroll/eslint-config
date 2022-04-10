@@ -1,33 +1,67 @@
-// Load this config last to ensure all rules overridden.
+const path = require("path");
+const cwd = process.cwd();
+// eslint-disable-next-line import/no-dynamic-require
+const package = require(path.resolve(cwd, "package.json"));
 
-module.exports = {
+const isEsm = !!package.dependencies.esm;
+const isTypescript = !!package.devDependencies.typescript;
+const isNext = !!package.dependencies.next;
+const isReact = !!package.dependencies.react;
+const isReactDom = !!package.dependencies["react-dom"];
+const isReactNative = !!package.dependencies["react-native"];
+
+// React can be imported in CLI so we exclude it.
+const isModule = isEsm || isTypescript || isNext || isReactDom;
+
+const config = {
   env: {
-    // Webpack
     commonjs: true,
-    // Node
     node: true,
-    // Older ECMA Script
     es6: true,
     es2017: true,
-    // New Stuff like optional chaining.
     es2020: true,
+    browser: isNext || isReactDom,
   },
 
-  // Use the latest environment.
+  extends: [
+    "eslint:recommended",
+    !isReact && "airbnb-base",
+
+    // This also loads the react plugin through eslint-config-airbnb >> react-a11y so we no longer need to include it.
+    isReact && "airbnb",
+    isReact && "airbnb/hooks",
+
+    isTypescript && "plugin:@typescript-eslint/recommended",
+    isTypescript && !isReact && "airbnb-typescript/base",
+
+    isTypescript && isReact && "airbnb-typescript",
+
+    isNext && "plugin:@next/next/recommended",
+
+    "prettier",
+  ].filter((i) => i),
+
+  plugins: [isTypescript && "@typescript-eslint", "prettier"].filter((i) => i),
+
+  // TS needs typescript-eslint. non-TS NextJS and React need JSX so use eslint-parser.
+  ...((isTypescript || isNext) && {
+    parser: isTypescript ? "@typescript-eslint/parser" : "@babel/eslint-parser",
+  }),
+
   parserOptions: {
+    sourceType: isModule ? "module" : "script",
     ecmaVersion: 2020,
+    requireConfigFile: false,
+    ...(isTypescript && { project: "tsconfig.json" }),
+    // Fixes @babel/eslint-parser error:
+    // "This experimental syntax requires enabling one of the following parser plugin(s)."
+    ...(!isTypescript &&
+      isNext && {
+        babelOptions: {
+          presets: ["next/babel"],
+        },
+      }),
   },
-
-  /**
-   * - Add prettier in both plugins and extends instead of just
-   *   "plugin:prettier/recommended" in the extends array.
-   * - https://github.com/prettier/eslint-plugin-prettier/issues/103#issuecomment-425670176
-   */
-  // Make eslint error out when prettier sees errors.
-  plugins: ["prettier"],
-
-  // Stop eslint rules that may conflict with prettier.
-  extends: ["prettier"],
 
   globals: {
     Atomics: "readonly",
@@ -35,14 +69,27 @@ module.exports = {
   },
 
   settings: {
-    // https://github.com/airbnb/javascript/issues/859#issuecomment-265862709
+    /**
+     *
+     * 1. https://github.com/airbnb/javascript/issues/859#issuecomment-265862709
+     * 2. https://github.com/import-js/eslint-plugin-import/tree/main/resolvers/node
+     *
+     * "paths" is used instead of "moduleDirectory" since "moduleDirectory"
+     * triggers an "import/no-self-import" error when importing a file from
+     * baseUrl which has the same name as an installed package. e.g.
+     *
+     * import knex from 'knex;
+     *
+     * Where knex exists in src/knex/index.ts
+     *
+     */
     "import/resolver": {
       node: {
-        moduleDirectory: [
-          "node_modules",
-          "src", // replace with your app-module-path directory
-        ],
+        paths: ["src"],
       },
+      ...(isTypescript && {
+        typescript: {},
+      }),
     },
   },
 
@@ -68,6 +115,9 @@ module.exports = {
     "no-console": 1,
     "no-unused-vars": 1,
     "consistent-return": 0,
+    "no-unreachable": 1,
+    "import/no-extraneous-dependencies": [2, { devDependencies: true }],
+    "no-restricted-exports": 0,
     "import/order": [
       1,
       {
@@ -97,8 +147,64 @@ module.exports = {
         ],
       },
     ],
-    "import/no-extraneous-dependencies": [2, { devDependencies: true }],
-    // next-optimized-images
-    "import/no-unresolved": [2, { commonjs: true, ignore: [".+\\?.+$"] }],
+
+    ...(isNext && {
+      "jsx-a11y/anchor-is-valid": [
+        "error",
+        {
+          components: ["Link"],
+          specialLink: ["hrefLeft", "hrefRight"],
+          aspects: ["invalidHref", "preferButton"],
+        },
+      ],
+      // For next-optimized-images when it has a query string at the end.
+      "import/no-unresolved": [2, { commonjs: true, ignore: [".+\\?.+$"] }],
+      "@next/next/no-img-element": 0,
+    }),
+
+    ...(isReact && {
+      "jsx-a11y/click-events-have-key-events": 1,
+      "jsx-a11y/no-noninteractive-element-interactions": 1,
+      "react/jsx-props-no-spreading": 1,
+      "react/jsx-filename-extension": 0,
+      "react/prop-types": 0,
+      "react/jsx-curly-newline": 0,
+      "react/jsx-fragments": 0,
+      "react/react-in-jsx-scope": 0,
+      "react/destructuring-assignment": 1,
+      "react-hooks/exhaustive-deps": 1,
+      "react/function-component-definition": [
+        1,
+        {
+          namedComponents: "function-declaration",
+          unnamedComponents: "arrow-function",
+        },
+      ],
+    }),
+
+    ...(isReactNative && {
+      // React Native usually defines styles at the bottom of the stylesheet.
+      "no-use-before-define": "off",
+    }),
+
+    ...(isTypescript && {
+      "@typescript-eslint/no-var-requires": 0,
+      "@typescript-eslint/no-unused-vars": 1,
+      "@typescript-eslint/no-unused-expressions": 1,
+      "@typescript-eslint/no-shadow": 1,
+      "@typescript-eslint/naming-convention": 1,
+      "@typescript-eslint/no-throw-literal": 1,
+    }),
+
+    ...(isTypescript &&
+      isReact && {
+        "react/require-default-props": 1,
+      }),
   },
 };
+
+console.log("+++ Start of Generated ESLint Config");
+console.log(JSON.stringify(config, null, 2));
+console.log("+++ End of Generated ESLint Config");
+
+module.exports = config;
