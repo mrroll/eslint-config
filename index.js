@@ -184,7 +184,7 @@ const config = {
 
     ...(isReactNative && {
       // React Native usually defines styles at the bottom of the stylesheet.
-      "no-use-before-define": "off",
+      "no-use-before-define": 0,
     }),
 
     ...(isTypescript && {
@@ -199,6 +199,11 @@ const config = {
     ...(isTypescript &&
       isReact && {
         "react/require-default-props": 1,
+      }),
+
+    ...(isTypescript &&
+      isReactNative && {
+        "@typescript-eslint/no-use-before-define": 0,
       }),
   },
 };
