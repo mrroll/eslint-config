@@ -103,10 +103,17 @@ const config = {
       node: {
         paths: ["src"],
       },
-      // ...(isDependency("typescript") && {
-      //   typescript: {},
-      // }),
+      ...(isDependency("typescript") && {
+        typescript: {},
+      }),
     },
+
+    // https://github.com/import-js/eslint-plugin-import/issues/2405
+    ...(isDependency("typescript") && {
+      "import/parsers": {
+        "@typescript-eslint/parser": [".ts", ".tsx"],
+      },
+    }),
   },
 
   rules: {
@@ -217,9 +224,9 @@ const config = {
   },
 };
 
-console.log("+++ Start of Generated ESLint Config");
-console.log(JSON.stringify(config, null, 2));
-console.log("+++ End of Generated ESLint Config");
-console.count("+++ Loaded ESLint Config");
+// console.log("+++ Start of Generated ESLint Config");
+// console.log(JSON.stringify(config, null, 2));
+// console.log("+++ End of Generated ESLint Config");
+// console.count("+++ Loaded ESLint Config");
 
 module.exports = config;
