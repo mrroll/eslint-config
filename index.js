@@ -3,15 +3,29 @@ const cwd = process.cwd();
 // eslint-disable-next-line import/no-dynamic-require
 const package = require(path.resolve(cwd, "package.json"));
 
-const isEsm = !!package.dependencies.esm;
-const isTypescript = !!package.devDependencies.typescript;
-const isNext = !!package.dependencies.next;
-const isReact = !!package.dependencies.react;
-const isReactDom = !!package.dependencies["react-dom"];
-const isReactNative = !!package.dependencies["react-native"];
+const isDependency = (dependency) =>
+  dependency in package.dependencies || dependency in package.devDependencies;
 
-// React can be imported in CLI so we exclude it.
-const isModule = isEsm || isTypescript || isNext || isReactDom;
+const isAnyOneADependency = (dependencies) =>
+  dependencies.some((dependency) => isDependency(dependency));
+
+const parser = () => {
+  if (isDependency("typescript")) {
+    return "@typescript-eslint/parser";
+  }
+
+  return "@babel/eslint-parser";
+};
+
+const sourceType = () => {
+  const isModule = isAnyOneADependency(["esm", "typescript", "next", "react-dom"]);
+
+  if (isModule) {
+    return "module";
+  }
+
+  return "script";
+};
 
 const config = {
   env: {
@@ -20,43 +34,45 @@ const config = {
     es6: true,
     es2017: true,
     es2020: true,
-    browser: isNext || isReactDom,
+    browser: isDependency("next") || isDependency("react-dom"),
   },
 
   extends: [
     "eslint:recommended",
-    !isReact && "airbnb-base",
+    !isDependency("react") && "airbnb-base",
 
     // This also loads the react plugin through eslint-config-airbnb >> react-a11y so we no longer need to include it.
-    isReact && "airbnb",
-    isReact && "airbnb/hooks",
+    isDependency("react") && "airbnb",
+    isDependency("react") && "airbnb/hooks",
 
-    isTypescript && "plugin:@typescript-eslint/recommended",
-    isTypescript && !isReact && "airbnb-typescript/base",
+    isDependency("typescript") && "plugin:@typescript-eslint/recommended",
+    isDependency("typescript") && !isDependency("react") && "airbnb-typescript/base",
 
-    isTypescript && isReact && "airbnb-typescript",
+    isDependency("typescript") && isDependency("react") && "airbnb-typescript",
 
-    isNext && "plugin:@next/next/recommended",
+    isDependency("next") && "plugin:@next/next/recommended",
 
     "prettier",
-  ].filter((i) => i),
+  ].filter(Boolean),
 
-  plugins: [isTypescript && "@typescript-eslint", "prettier"].filter((i) => i),
+  plugins: [
+    //
+    isDependency("typescript") && "@typescript-eslint",
+    "prettier",
+  ].filter(Boolean),
 
-  // TS needs typescript-eslint. non-TS NextJS and React need JSX so use eslint-parser.
-  ...((isTypescript || isNext) && {
-    parser: isTypescript ? "@typescript-eslint/parser" : "@babel/eslint-parser",
-  }),
+  parser: parser(),
 
   parserOptions: {
-    sourceType: isModule ? "module" : "script",
+    sourceType: sourceType(),
     ecmaVersion: 2020,
     requireConfigFile: false,
-    ...(isTypescript && { project: "tsconfig.json" }),
+    ...(isDependency("typescript") && { project: "tsconfig.json" }),
+
     // Fixes @babel/eslint-parser error:
     // "This experimental syntax requires enabling one of the following parser plugin(s)."
-    ...(!isTypescript &&
-      isNext && {
+    ...(!isDependency("typescript") &&
+      isDependency("next") && {
         babelOptions: {
           presets: ["next/babel"],
         },
@@ -87,7 +103,7 @@ const config = {
       node: {
         paths: ["src"],
       },
-      ...(isTypescript && {
+      ...(isDependency("typescript") && {
         typescript: {},
       }),
     },
@@ -121,14 +137,7 @@ const config = {
     "import/order": [
       1,
       {
-        groups: [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index",
-        ],
+        groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
         /**
          * Allow the use of external for matching for classnames/bind which we
          * want near the end of the component's imports together with the
@@ -148,7 +157,7 @@ const config = {
       },
     ],
 
-    ...(isNext && {
+    ...(isDependency("next") && {
       "jsx-a11y/anchor-is-valid": [
         "error",
         {
@@ -162,7 +171,7 @@ const config = {
       "@next/next/no-img-element": 0,
     }),
 
-    ...(isReact && {
+    ...(isDependency("react") && {
       "jsx-a11y/click-events-have-key-events": 1,
       "jsx-a11y/no-noninteractive-element-interactions": 1,
       "react/jsx-props-no-spreading": 1,
@@ -182,12 +191,12 @@ const config = {
       ],
     }),
 
-    ...(isReactNative && {
+    ...(isDependency("react-native") && {
       // React Native usually defines styles at the bottom of the stylesheet.
       "no-use-before-define": 0,
     }),
 
-    ...(isTypescript && {
+    ...(isDependency("typescript") && {
       "@typescript-eslint/no-var-requires": 0,
       "@typescript-eslint/no-unused-vars": 1,
       "@typescript-eslint/no-unused-expressions": 1,
@@ -196,20 +205,21 @@ const config = {
       "@typescript-eslint/no-throw-literal": 1,
     }),
 
-    ...(isTypescript &&
-      isReact && {
+    ...(isDependency("typescript") &&
+      isDependency("react") && {
         "react/require-default-props": 1,
       }),
 
-    ...(isTypescript &&
-      isReactNative && {
+    ...(isDependency("typescript") &&
+      isDependency("react-native") && {
         "@typescript-eslint/no-use-before-define": 0,
       }),
   },
 };
 
-// console.log("+++ Start of Generated ESLint Config");
-// console.log(JSON.stringify(config, null, 2));
-// console.log("+++ End of Generated ESLint Config");
+console.log("+++ Start of Generated ESLint Config");
+console.log(JSON.stringify(config, null, 2));
+console.log("+++ End of Generated ESLint Config");
+console.count("+++ Loaded ESLint Config");
 
 module.exports = config;
