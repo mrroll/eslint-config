@@ -1,4 +1,5 @@
 const path = require("path");
+const semver = require("semver");
 const cwd = process.cwd();
 // eslint-disable-next-line import/no-dynamic-require
 const package = require(path.resolve(cwd, "package.json"));
@@ -8,6 +9,14 @@ const isDependency = (dependency) =>
 
 const isAnyOneADependency = (dependencies) =>
   dependencies.some((dependency) => isDependency(dependency));
+
+const version = (dependency) => {
+  if (isDependency(dependency) === false) {
+    throw new Error(`${dependency} is not a dependency in this project.`);
+  }
+
+  return package.dependencies[dependency] ?? package.devDependencies[dependency];
+};
 
 const parser = () => {
   if (isDependency("typescript")) {
@@ -164,15 +173,19 @@ const config = {
       },
     ],
 
+    ...(isDependency("next") &&
+      semver.satisfies(version("next"), "< 12.1.6") && {
+        "jsx-a11y/anchor-is-valid": [
+          "error",
+          {
+            components: ["Link"],
+            specialLink: ["hrefLeft", "hrefRight"],
+            aspects: ["invalidHref", "preferButton"],
+          },
+        ],
+      }),
+
     ...(isDependency("next") && {
-      "jsx-a11y/anchor-is-valid": [
-        "error",
-        {
-          components: ["Link"],
-          specialLink: ["hrefLeft", "hrefRight"],
-          aspects: ["invalidHref", "preferButton"],
-        },
-      ],
       // For next-optimized-images when it has a query string at the end.
       "import/no-unresolved": [2, { commonjs: true, ignore: [".+\\?.+$"] }],
       "@next/next/no-img-element": 0,
