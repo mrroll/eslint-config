@@ -228,7 +228,7 @@ const config = {
 
     ...(isDependency("typescript") &&
       isDependency("react") && {
-        "react/require-default-props": 1,
+        "react/require-default-props": 0,
       }),
 
     ...(isDependency("typescript") &&
