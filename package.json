@@ -1,6 +1,6 @@
 {
   "name": "@mrroll/eslint-config",
-  "version": "8.19.0",
+  "version": "8.20.0",
   "license": "MIT",
   "author": "mrroll",
   "main": "index.js",
@@ -12,7 +12,7 @@
     "yarn": "1.22.18"
   },
   "dependencies": {
-    "@babel/core": "^7.17.12",
+    "@babel/core": "^7.18.0",
     "@babel/eslint-parser": "^7.17.0",
     "@rushstack/eslint-patch": "^1.1.3",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
