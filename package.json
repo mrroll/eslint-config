@@ -1,6 +1,6 @@
 {
   "name": "@mrroll/eslint-config",
-  "version": "8.27.0",
+  "version": "8.28.0",
   "license": "MIT",
   "author": "mrroll",
   "main": "index.js",
@@ -8,8 +8,8 @@
     "prepublishOnly": "yarn install"
   },
   "volta": {
-    "node": "16.15.0",
-    "yarn": "1.22.18"
+    "node": "16.15.1",
+    "yarn": "1.22.19"
   },
   "dependencies": {
     "@babel/core": "^7.18.2",
