@@ -1,6 +1,6 @@
 {
   "name": "@mrroll/eslint-config",
-  "version": "8.29.0",
+  "version": "8.30.0",
   "license": "MIT",
   "author": "mrroll",
   "main": "index.js",
@@ -32,10 +32,10 @@
   },
   "peerDependencies": {
     "eslint": "^8.17.0",
-    "prettier": "^2.7.0"
+    "prettier": "^2.7.1"
   },
   "devDependencies": {
     "eslint": "^8.17.0",
-    "prettier": "^2.7.0"
+    "prettier": "^2.7.1"
   }
 }
