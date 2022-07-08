@@ -1,6 +1,6 @@
 {
   "name": "@mrroll/eslint-config",
-  "version": "9.4.0",
+  "version": "9.5.0",
   "license": "MIT",
   "author": "mrroll",
   "main": "index.js",
@@ -8,13 +8,13 @@
     "prepublishOnly": "yarn install"
   },
   "volta": {
-    "node": "16.15.1",
+    "node": "16.16.0",
     "yarn": "1.22.19"
   },
   "dependencies": {
     "@babel/core": "^7.18.6",
     "@babel/eslint-parser": "^7.18.2",
-    "@next/eslint-plugin-next": "^12.2.0",
+    "@next/eslint-plugin-next": "^12.2.1",
     "@rushstack/eslint-patch": "^1.1.4",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",
