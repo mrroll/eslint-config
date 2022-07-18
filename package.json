@@ -1,6 +1,6 @@
 {
   "name": "@mrroll/eslint-config",
-  "version": "9.7.0",
+  "version": "9.8.0",
   "license": "MIT",
   "author": "mrroll",
   "main": "index.js",
@@ -22,7 +22,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-import-resolver-typescript": "^3.2.5",
+    "eslint-import-resolver-typescript": "^3.2.7",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -31,11 +31,11 @@
     "semver": "^7.3.7"
   },
   "peerDependencies": {
-    "eslint": "^8.19.0",
+    "eslint": "^8.20.0",
     "prettier": "^2.7.1"
   },
   "devDependencies": {
-    "eslint": "^8.19.0",
+    "eslint": "^8.20.0",
     "prettier": "^2.7.1"
   }
 }
