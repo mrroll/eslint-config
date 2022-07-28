@@ -1,6 +1,6 @@
 {
   "name": "@mrroll/eslint-config",
-  "version": "9.11.0",
+  "version": "9.12.0",
   "license": "MIT",
   "author": "mrroll",
   "main": "index.js",
@@ -16,8 +16,8 @@
     "@babel/eslint-parser": "^7.18.9",
     "@next/eslint-plugin-next": "^12.2.3",
     "@rushstack/eslint-patch": "^1.1.4",
-    "@typescript-eslint/eslint-plugin": "^5.30.7",
-    "@typescript-eslint/parser": "^5.30.7",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
