@@ -1,6 +1,6 @@
 {
   "name": "@mrroll/eslint-config",
-  "version": "9.14.0",
+  "version": "9.15.0",
   "license": "MIT",
   "author": "mrroll",
   "main": "index.js",
@@ -14,7 +14,7 @@
   "dependencies": {
     "@babel/core": "^7.18.10",
     "@babel/eslint-parser": "^7.18.9",
-    "@next/eslint-plugin-next": "^12.2.3",
+    "@next/eslint-plugin-next": "^12.2.4",
     "@rushstack/eslint-patch": "^1.1.4",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
