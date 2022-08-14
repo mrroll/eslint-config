@@ -205,9 +205,11 @@ const config = {
         !isDependency("react") && "airbnb-typescript/base",
 
         isDependency("react") && "airbnb-typescript",
+
+        "prettier",
       ].filter(Boolean),
 
-      plugins: ["@typescript-eslint"],
+      plugins: ["@typescript-eslint", "prettier"],
 
       settings: {
         "import/resolver": {
