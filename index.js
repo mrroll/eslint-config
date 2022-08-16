@@ -18,6 +18,14 @@ const version = (dependency) => {
   return package.dependencies[dependency] ?? package.devDependencies[dependency];
 };
 
+const parser = () => {
+  if (isDependency("typescript")) {
+    return "@typescript-eslint/parser";
+  }
+
+  return "@babel/eslint-parser";
+};
+
 const sourceType = () => {
   const isModule = isAnyOneADependency(["esm", "typescript", "next", "react-dom"]);
 
@@ -46,19 +54,29 @@ const config = {
     isDependency("react") && "airbnb",
     isDependency("react") && "airbnb/hooks",
 
+    isDependency("typescript") && "plugin:@typescript-eslint/recommended",
+    isDependency("typescript") && !isDependency("react") && "airbnb-typescript/base",
+
+    isDependency("typescript") && isDependency("react") && "airbnb-typescript",
+
     isDependency("next") && "plugin:@next/next/recommended",
 
     "prettier",
   ].filter(Boolean),
 
-  plugins: ["prettier"],
+  plugins: [
+    //
+    isDependency("typescript") && "@typescript-eslint",
+    "prettier",
+  ].filter(Boolean),
 
-  parser: "@babel/eslint-parser",
+  parser: parser(),
 
   parserOptions: {
     sourceType: sourceType(),
     ecmaVersion: 2020,
     requireConfigFile: false,
+    ...(isDependency("typescript") && { project: "tsconfig.json" }),
 
     // Fixes @babel/eslint-parser error:
     // "This experimental syntax requires enabling one of the following parser plugin(s)."
@@ -94,7 +112,17 @@ const config = {
       node: {
         paths: ["src"],
       },
+      ...(isDependency("typescript") && {
+        typescript: {},
+      }),
     },
+
+    // https://github.com/import-js/eslint-plugin-import/issues/2405
+    ...(isDependency("typescript") && {
+      "import/parsers": {
+        "@typescript-eslint/parser": [".ts", ".tsx"],
+      },
+    }),
   },
 
   rules: {
@@ -188,63 +216,28 @@ const config = {
       // React Native usually defines styles at the bottom of the stylesheet.
       "no-use-before-define": 0,
     }),
+
+    ...(isDependency("typescript") && {
+      "@typescript-eslint/no-var-requires": 0,
+      "@typescript-eslint/no-unused-vars": 1,
+      "@typescript-eslint/no-unused-expressions": 1,
+      "@typescript-eslint/no-shadow": 1,
+      "@typescript-eslint/naming-convention": 1,
+      "@typescript-eslint/no-throw-literal": 1,
+    }),
+
+    ...(isDependency("typescript") &&
+      isDependency("react") && {
+        "react/require-default-props": 0,
+      }),
+
+    ...(isDependency("typescript") &&
+      isDependency("react-native") && {
+        "@typescript-eslint/no-use-before-define": 0,
+      }),
   },
 
-  overrides: [
-    {
-      files: ["*.ts", "*.tsx"],
-
-      parser: "@typescript-eslint/parser",
-
-      parserOptions: {
-        project: "tsconfig.json",
-      },
-
-      extends: [
-        "plugin:@typescript-eslint/recommended",
-        !isDependency("react") && "airbnb-typescript/base",
-
-        isDependency("react") && "airbnb-typescript",
-
-        "prettier",
-      ].filter(Boolean),
-
-      plugins: ["@typescript-eslint", "prettier"],
-
-      settings: {
-        "import/resolver": {
-          typescript: {},
-        },
-
-        // https://github.com/import-js/eslint-plugin-import/issues/2405
-        "import/parsers": {
-          "@typescript-eslint/parser": [".ts", ".tsx"],
-        },
-      },
-
-      rules: {
-        "@typescript-eslint/no-var-requires": 0,
-        "@typescript-eslint/no-unused-vars": 1,
-        "@typescript-eslint/no-unused-expressions": 1,
-        "@typescript-eslint/no-shadow": 1,
-        "@typescript-eslint/naming-convention": 1,
-        "@typescript-eslint/no-throw-literal": 1,
-
-        ...(isDependency("react") && {
-          "react/require-default-props": 0,
-        }),
-
-        ...(isDependency("react-native") && {
-          "@typescript-eslint/no-use-before-define": 0,
-        }),
-      },
-    },
-  ],
+  overrides: [{ files: ["*.js", "*.jsx"], parser: "@babel/eslint-parser" }],
 };
-
-// console.log("+++ Start of Generated ESLint Config");
-// console.log(JSON.stringify(config, null, 2));
-// console.log("+++ End of Generated ESLint Config");
-// console.count("+++ Loaded ESLint Config");
 
 module.exports = config;
