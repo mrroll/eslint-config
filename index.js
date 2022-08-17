@@ -145,6 +145,8 @@ const config = {
         isDependency("react") && "airbnb/hooks",
 
         isDependency("next") && "plugin:@next/next/recommended",
+
+        "prettier",
       ].filter(Boolean),
 
       plugins: ["prettier"],
@@ -208,6 +210,8 @@ const config = {
         isDependency("react") && "airbnb-typescript",
 
         isDependency("next") && "plugin:@next/next/recommended",
+
+        "prettier",
       ].filter(Boolean),
 
       plugins: ["@typescript-eslint", "prettier"],
