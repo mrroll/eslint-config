@@ -1,6 +1,6 @@
 {
   "name": "@mrroll/eslint-config",
-  "version": "10.13.0",
+  "version": "10.14.0",
   "license": "MIT",
   "author": "mrroll",
   "main": "index.js",
@@ -14,7 +14,7 @@
   "dependencies": {
     "@babel/core": "^7.19.0",
     "@babel/eslint-parser": "^7.18.9",
-    "@next/eslint-plugin-next": "^12.2.5",
+    "@next/eslint-plugin-next": "^12.3.0",
     "@rushstack/eslint-patch": "^1.1.4",
     "@typescript-eslint/eslint-plugin": "^5.36.2",
     "@typescript-eslint/parser": "^5.36.2",
@@ -22,7 +22,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-import-resolver-typescript": "^3.5.0",
+    "eslint-import-resolver-typescript": "^3.5.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-prettier": "^4.2.1",
